@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL\CatalogService.Api.DAL.csproj" />
+    <ProjectReference Include="..\CatalogService.Api.DAL\CatalogService.Api.DAL.csproj" />
   </ItemGroup>
 
 </Project>

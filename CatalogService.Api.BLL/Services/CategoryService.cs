@@ -1,12 +1,7 @@
 ﻿using AutoMapper;
-using CatalogService.Api.BLL.ModelBS;
-using DAL.Entities;
+using CatalogService.Api.BLL.Models;
 using DAL.Repositories;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Api.BLL.Services
 {
@@ -19,9 +14,9 @@ namespace CatalogService.Api.BLL.Services
             this.mapper = mapper;
             this.categoryRepository = categoryRepository;
         }
-        public void Delete(CategoryBS entity, bool saveChanges = true)
+        public void Delete(Category entity, bool saveChanges = true)
         {
-            var category = mapper.Map<Category>(entity);
+            var category = mapper.Map<DAL.Entities.Category>(entity);
             categoryRepository.Delete(category, saveChanges);
         }
 
@@ -30,29 +25,29 @@ namespace CatalogService.Api.BLL.Services
             categoryRepository.Delete(id);
         }
 
-        public IList<CategoryBS> GetAll()
+        public IList<Category> GetAll()
         {
             var categories = categoryRepository.GetAll();
-            var categoriesBs = mapper.Map<IList<CategoryBS>>(categories);
+            var categoriesBs = mapper.Map<IList<Category>>(categories);
             return categoriesBs;
         }
 
-        public CategoryBS GetById(int id)
+        public Category GetById(int id)
         {
             var category = categoryRepository.GetById(id);
-            var categoryBs = mapper.Map<CategoryBS>(category);
+            var categoryBs = mapper.Map<Category>(category);
             return categoryBs;
         }
 
-        public void Insert(CategoryBS entity, bool saveChanges = true)
+        public void Insert(Category entity, bool saveChanges = true)
         {
-            var category = mapper.Map<Category>(entity);
+            var category = mapper.Map<DAL.Entities.Category>(entity);
             categoryRepository.Insert(category, saveChanges);
         }
 
-        public void Update(CategoryBS entity, bool saveChanges = true)
+        public void Update(Category entity, bool saveChanges = true)
         {
-            var category = mapper.Map<Category>(entity);
+            var category = mapper.Map<DAL.Entities.Category>(entity);
             categoryRepository.Update(category, saveChanges);
         }
     }

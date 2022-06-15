@@ -1,4 +1,4 @@
-﻿using CatalogService.Api.BLL.ModelBS;
+﻿using CatalogService.Api.BLL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +9,11 @@ namespace CatalogService.Api.BLL.Services
 {
     public interface ICategoryService
     {
-        IList<CategoryBS> GetAll();
-        CategoryBS GetById(int id);
-        void Insert(CategoryBS entity, bool saveChanges = true);
-        void Delete(CategoryBS entity, bool saveChanges = true);
+        IList<Category> GetAll();
+        Category GetById(int id);
+        void Insert(Category entity, bool saveChanges = true);
+        void Delete(Category entity, bool saveChanges = true);
         void Delete(int id);
-        void Update(CategoryBS entity, bool saveChanges = true);
+        void Update(Category entity, bool saveChanges = true);
     }
 }

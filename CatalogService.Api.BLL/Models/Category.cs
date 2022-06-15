@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace CatalogService.Api.BLL.ModelBS
+namespace CatalogService.Api.BLL.Models
 {
-    public class CategoryBS
+    public class Category
     {
         public int CategoryId { get; set; }
         public string Name { get; set; }
         public string ImageUrl { get; set; }
         public int ParentCategoryId { get; set; }
-        public ICollection<ProductBS> Products { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }
