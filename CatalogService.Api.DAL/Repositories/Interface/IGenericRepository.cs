@@ -10,8 +10,8 @@ namespace DAL.Repositories
     {
         IList<TEntity> GetAll();
         TEntity GetById(int id);
-        void Insert(TEntity entity, bool saveChanges = false);
-        void Delete(TEntity entity, bool saveChanges = false);
-        void Update(TEntity entity, bool saveChanges = false);
+        void Insert(TEntity entity);
+        void Delete(TEntity entity);
+        void Update(TEntity entity);
     }
 }

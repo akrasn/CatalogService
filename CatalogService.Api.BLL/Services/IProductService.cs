@@ -11,8 +11,8 @@ namespace CatalogService.Api.BLL.Services
     {
         IList<Product> GetAll();
         Product GetById(int id);
-        void Insert(Product entity, bool saveChanges = true);
-        void Delete(Product entity, bool saveChanges = true);
-        void Update(Product entity, bool saveChanges = true);
+        void Insert(Product entity);
+        void Delete(Product entity);
+        void Update(Product entity);
     }
 }

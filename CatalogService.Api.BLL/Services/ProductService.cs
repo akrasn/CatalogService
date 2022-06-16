@@ -14,10 +14,10 @@ namespace CatalogService.Api.BLL.Services
             this.mapper = mapper;
             this.productRepository = productRepository;
         }
-        public void Delete(Product entity, bool saveChanges = true)
+        public void Delete(Product entity)
         {
             var product = mapper.Map<DAL.Entities.Product>(entity);
-            productRepository.Delete(product, saveChanges);
+            productRepository.Delete(product);
         }
 
         public IList<Product> GetAll()
@@ -34,16 +34,16 @@ namespace CatalogService.Api.BLL.Services
             return productBs;
         }
 
-        public void Insert(Product entity, bool saveChanges = true)
+        public void Insert(Product entity)
         {
             var product = mapper.Map<DAL.Entities.Product>(entity);
-            productRepository.Insert(product, saveChanges);
+            productRepository.Insert(product);
         }
 
-        public void Update(Product entity, bool saveChanges = true)
+        public void Update(Product entity)
         {
             var product = mapper.Map<DAL.Entities.Product>(entity);
-            productRepository.Update(product, saveChanges);
+            productRepository.Update(product);
         }
     }
 }

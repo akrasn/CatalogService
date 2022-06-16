@@ -39,34 +39,26 @@ namespace DAL.Repositories
             return this.DbSet.Find(id);
         }
 
-        public void Delete(TEntity entity, bool saveChanges = false)
+        public void Delete(TEntity entity)
         {
             this.DbSet.Attach(entity);
             this.DbSet.Remove(entity);
-            if (saveChanges)
-            {
-                Context.SaveChanges();
-            }
+            Context.SaveChanges();
         }
 
-        public void Insert(TEntity entity, bool saveChanges = false)
+        public void Insert(TEntity entity)
         {
             this.DbSet.Add(entity);
-            if (saveChanges)
-            {
-                Context.SaveChanges();
-            }
+            Context.SaveChanges();
         }
 
-        public void Update(TEntity entity, bool saveChanges = false)
+        public void Update(TEntity entity)
         {
             var entry = Context.Entry(entity);
             this.DbSet.Attach(entity);
             entry.State = EntityState.Modified;
-            if (saveChanges)
-            {
-                Context.SaveChanges();
-            }
+            Context.SaveChanges();
+
         }
     }
 }

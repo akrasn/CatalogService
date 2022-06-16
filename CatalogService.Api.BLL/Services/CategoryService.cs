@@ -14,10 +14,10 @@ namespace CatalogService.Api.BLL.Services
             this.mapper = mapper;
             this.categoryRepository = categoryRepository;
         }
-        public void Delete(Category entity, bool saveChanges = true)
+        public void Delete(Category entity)
         {
             var category = mapper.Map<DAL.Entities.Category>(entity);
-            categoryRepository.Delete(category, saveChanges);
+            categoryRepository.Delete(category);
         }
 
         public void Delete(int id)
@@ -39,16 +39,16 @@ namespace CatalogService.Api.BLL.Services
             return categoryBs;
         }
 
-        public void Insert(Category entity, bool saveChanges = true)
+        public void Insert(Category entity)
         {
             var category = mapper.Map<DAL.Entities.Category>(entity);
-            categoryRepository.Insert(category, saveChanges);
+            categoryRepository.Insert(category);
         }
 
-        public void Update(Category entity, bool saveChanges = true)
+        public void Update(Category entity)
         {
             var category = mapper.Map<DAL.Entities.Category>(entity);
-            categoryRepository.Update(category, saveChanges);
+            categoryRepository.Update(category);
         }
     }
 }
