@@ -41,7 +41,12 @@ namespace DAL.Repositories
 
         public void Delete(TEntity entity)
         {
-            this.DbSet.Attach(entity);
+            //this.DbSet.Attach(entity);
+                    var entityContext = Context.Entry(entity);
+            entityContext.State = EntityState.Detached;
+            Context.SaveChanges();
+            //this.DbSet.Attach(entity);
+            //entityContext.State = EntityState.Modified;
             this.DbSet.Remove(entity);
             Context.SaveChanges();
         }
@@ -54,9 +59,9 @@ namespace DAL.Repositories
 
         public void Update(TEntity entity)
         {
-            var entry = Context.Entry(entity);
+            var entityContext = Context.Entry(entity);
             this.DbSet.Attach(entity);
-            entry.State = EntityState.Modified;
+            entityContext.State = EntityState.Modified;
             Context.SaveChanges();
 
         }

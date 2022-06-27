@@ -10,9 +10,12 @@ namespace CatalogService.Api.BLL.Services
     public interface IProductService
     {
         IList<Product> GetAll();
+
+        IList<Product> GetCategory(int categoryId, int pageNumber, int pageSize);
+        int CategoryCount(int categoryId);
         Product GetById(int id);
         void Insert(Product entity);
-        void Delete(Product entity);
+        void Delete(int id);
         void Update(Product entity);
     }
 }

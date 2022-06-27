@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CatalogService.Api.BLL.Models;
+using CatalogService.Api.DAL.Repositories.Interface;
 using DAL.Repositories;
 using System.Collections.Generic;
 
@@ -7,17 +8,16 @@ namespace CatalogService.Api.BLL.Services
 {
     public class ProductService : IProductService
     {
-        private IGenericRepository<DAL.Entities.Product> productRepository;
+        private IProductRepository productRepository;
         private readonly IMapper mapper;
-        public ProductService(IMapper mapper, IGenericRepository<DAL.Entities.Product> productRepository)
+        public ProductService(IMapper mapper, IProductRepository productRepository)
         {
             this.mapper = mapper;
             this.productRepository = productRepository;
         }
-        public void Delete(Product entity)
+        public void Delete(int id)
         {
-            var product = mapper.Map<DAL.Entities.Product>(entity);
-            productRepository.Delete(product);
+            productRepository.Delete(id);
         }
 
         public IList<Product> GetAll()
@@ -44,6 +44,18 @@ namespace CatalogService.Api.BLL.Services
         {
             var product = mapper.Map<DAL.Entities.Product>(entity);
             productRepository.Update(product);
+        }
+
+        public IList<Product> GetCategory(int categoryId, int pageNumber, int pageSize)
+        {
+            var productsContext = productRepository.GetCategory(categoryId, pageNumber, pageSize);
+            var products = mapper.Map<IList<Product>>(productsContext);
+            return products;
+        }
+
+        public int CategoryCount(int categoryId)
+        {
+            return productRepository.CategoryCount(categoryId);
         }
     }
 }

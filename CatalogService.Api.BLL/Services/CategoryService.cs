@@ -14,11 +14,6 @@ namespace CatalogService.Api.BLL.Services
             this.mapper = mapper;
             this.categoryRepository = categoryRepository;
         }
-        public void Delete(Category entity)
-        {
-            var category = mapper.Map<DAL.Entities.Category>(entity);
-            categoryRepository.Delete(category);
-        }
 
         public void Delete(int id)
         {

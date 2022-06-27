@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using DAL.Entities;
+using CatalogService.Api.DAL.Entities;
 
 namespace DAL.DataContext
 {

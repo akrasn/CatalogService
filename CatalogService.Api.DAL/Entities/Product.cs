@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace DAL.Entities
+namespace CatalogService.Api.DAL.Entities
 {
     public class Product
     {

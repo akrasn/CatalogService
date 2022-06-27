@@ -1,5 +1,5 @@
-﻿using DAL.DataContext;
-using DAL.Entities;
+﻿using CatalogService.Api.DAL.Entities;
+using DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +23,19 @@ namespace DAL.Repositories
 
         public override IList<Category> GetAll()
         {
-            var result = storeDBContext.Category.Include(x=>x.Products).ToList();
+            var result = storeDBContext.Category.Include(x => x.Products).ToList();
             return result;
         }
 
         public void Delete(int id)
         {
             var category = new Category() { CategoryId = id };
+            var products = storeDBContext.Products.Where(_=>_.CategoryId == id);
+            foreach (var product in products)
+            {
+                storeDBContext.Products.Attach(product);
+                storeDBContext.Products.Remove(product);
+            }
             storeDBContext.Category.Attach(category);
             storeDBContext.Category.Remove(category);
             storeDBContext.SaveChanges();

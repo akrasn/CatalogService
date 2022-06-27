@@ -1,8 +1,13 @@
 ﻿using AutoMapper;
 using CatalogService.Api.BLL.Services;
+using CatalogService.Api.Web.Filter;
+using CatalogService.Api.Web.Helpers;
+using CatalogService.Api.Web.Models;
+using CatalogService.Api.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,12 +20,14 @@ namespace CatalogService.Api.Web.Controllers
         private readonly ILogger<ProductController> logger;
         private readonly IMapper mapper;
         private IProductService productService;
+        private readonly IUriService uriService;
 
-        public ProductController(IMapper mapper, ILogger<ProductController> logger, IProductService productService)
+        public ProductController(IMapper mapper, ILogger<ProductController> logger, IProductService productService, IUriService uriService)
         {
             this.logger = logger;
             this.mapper = mapper;
             this.productService = productService;
+            this.uriService = uriService;
         }
 
         [HttpGet()]
@@ -28,6 +35,19 @@ namespace CatalogService.Api.Web.Controllers
         {
             var products = productService.GetAll();
             return mapper.Map<IList<Product>>(products);
+        }
+
+        [HttpGet]
+        [Route("ListOfItem")]
+        public IActionResult ListOfItem([FromQuery] ProductPaginationFilter filter)
+        {
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+            var products = productService.GetCategory(filter.CategoryId, filter.PageNumber, filter.PageSize);
+            var totalRecords = productService.CategoryCount(filter.CategoryId);
+            var pagedData = mapper.Map<IList<Product>>(products);
+            var pagedReponse = PaginationHelper.CreatePagedReponse(pagedData.ToList(), validFilter, totalRecords, uriService, route);
+            return Ok(pagedReponse);
         }
 
         [HttpGet("{id}")]
@@ -39,7 +59,8 @@ namespace CatalogService.Api.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Product> Insert(Product dto)
+        [Route("AddItem")]
+        public ActionResult<ProductUpdate> AddItem(ProductUpdate dto)
         {
             var Product = mapper.Map<Api.BLL.Models.Product>(dto);
             productService.Insert(Product);
@@ -47,18 +68,18 @@ namespace CatalogService.Api.Web.Controllers
         }
 
         [HttpPut]
-        public ActionResult<Product> Update(Product dto)
+        [Route("UpdateItem")]
+        public ActionResult<ProductUpdate> UpdateItem(ProductUpdate dto)
         {
-            var categoryBs = mapper.Map<Api.BLL.Models.Product>(dto);
-            productService.Update(categoryBs);
+            var product = mapper.Map<Api.BLL.Models.Product>(dto);
+            productService.Update(product);
             return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult<Product> Delete(int id)
+        [HttpDelete("DeleteItem/{id}")]
+        public ActionResult<Product> DeleteItem(int id)
         {
-            var product = productService.GetById(id);
-            productService.Delete(product);
+            productService.Delete(id);
             return Ok();
         }
     }

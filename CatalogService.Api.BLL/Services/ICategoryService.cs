@@ -12,7 +12,6 @@ namespace CatalogService.Api.BLL.Services
         IList<Category> GetAll();
         Category GetById(int id);
         void Insert(Category entity);
-        void Delete(Category entity);
         void Delete(int id);
         void Update(Category entity);
     }

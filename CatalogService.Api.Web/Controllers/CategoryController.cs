@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CatalogService.Api.BLL.Services;
+using CatalogService.Api.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -20,7 +21,8 @@ namespace CatalogService.Api.Web.Controllers
         }
         // GET: api/<CateroryController>
         [HttpGet()]
-        public IEnumerable<Category> Get()
+        [Route("ListCategories")]
+        public IEnumerable<Category> ListCategories()
         {
             var categories = categoryService.GetAll();
             var categoriesUI = mapper.Map<IList<Category>>(categories);
@@ -38,7 +40,8 @@ namespace CatalogService.Api.Web.Controllers
 
         // POST api/<CateroryController>
         [HttpPost]
-        public ActionResult<Category> Insert(Category dto)
+        [Route("AddCategory")]
+        public ActionResult<Category> AddCategory(CategoryUpdate dto)
         {
             var categoryBs = mapper.Map<Api.BLL.Models.Category>(dto);
             categoryService.Insert(categoryBs);
@@ -47,15 +50,16 @@ namespace CatalogService.Api.Web.Controllers
 
         // POST api/<CateroryController>
         [HttpPut]
-        public IActionResult Update(Category dto)
+        [Route("UpdateCategory")]
+        public IActionResult UpdateCategory(CategoryUpdate dto)
         {
             var categoryBs = mapper.Map<Api.BLL.Models.Category>(dto);
             categoryService.Update(categoryBs);
             return Ok(categoryBs);
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult<Category> Delete(int id)
+        [HttpDelete("DeleteCategory/{id}")]
+        public ActionResult<Category> DeleteCategory(int id)
         {
             categoryService.Delete(id);
             return Ok();

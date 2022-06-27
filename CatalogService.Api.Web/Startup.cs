@@ -9,6 +9,10 @@ using CatalogService.Api.BLL.Services;
 using Microsoft.OpenApi.Models;
 using DAL.DataContext;
 using DAL.Repositories;
+using CatalogService.Api.Web.Services;
+using Microsoft.AspNetCore.Http;
+using CatalogService.Api.DAL.Repositories;
+using CatalogService.Api.DAL.Repositories.Interface;
 
 namespace CatalogService
 {
@@ -32,9 +36,18 @@ namespace CatalogService
                    c.UseSqlServer(Configuration.GetConnectionString("StoreDbConnection")));
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddAutoMapper(typeof(AppMappingProfile));
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IUriService>(_ =>
+            {
+                var accessor = _.GetRequiredService<IHttpContextAccessor>();
+                var request = accessor.HttpContext.Request;
+                var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+                return new UriService(uri);
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
