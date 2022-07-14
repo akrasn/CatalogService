@@ -1,3 +1,4 @@
+using CatalogService.Api.Web.Producer;
 using DAL.DataContext;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

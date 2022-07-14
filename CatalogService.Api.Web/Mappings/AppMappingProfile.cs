@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CatalogService.Api.Web.Models;
+using CatalogService.Api.Web.Producer;
 
 namespace CatalogService.Api.Web.Utilities
 {
@@ -17,6 +18,13 @@ namespace CatalogService.Api.Web.Utilities
             CreateMap<CategoryUpdate, BLL.Models.Category>().ReverseMap();
             CreateMap<Product, BLL.Models.Product>().ReverseMap();
             CreateMap<ProductUpdate, BLL.Models.Product>().ForMember(x => x.Category, opt => opt.Ignore()).ReverseMap();
+            CreateMap<ProductMessage, BLL.Models.Product>()
+                .ForMember(dst => dst.ProductId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dst => dst.ImageUrl,opt =>opt.MapFrom(src =>src.Image))
+                .ForMember(dst => dst.Category, opt => opt.Ignore())
+                .ForMember(dst => dst.CategoryId, opt => opt.Ignore())
+                .ForMember(dst => dst.Amount, opt => opt.Ignore())
+                .ReverseMap();
         }
     }
 }

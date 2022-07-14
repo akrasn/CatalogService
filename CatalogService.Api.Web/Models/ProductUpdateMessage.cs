@@ -1,12 +1,15 @@
-﻿namespace CatalogService.Api.BLL.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CatalogService.Api.Web.Models
 {
-    public class Product
+    public class ProductUpdateMessage
     {
         public int ProductId { get; set; }
         public string Name { get; set; }
         public string ImageUrl { get; set; }
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
         public decimal Price { get; set; }
         public uint Amount { get; set; }
     }

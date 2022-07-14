@@ -3,6 +3,7 @@ using CatalogService.Api.BLL.Services;
 using CatalogService.Api.Web.Filter;
 using CatalogService.Api.Web.Helpers;
 using CatalogService.Api.Web.Models;
+using CatalogService.Api.Web.Producer;
 using CatalogService.Api.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -69,10 +70,13 @@ namespace CatalogService.Api.Web.Controllers
 
         [HttpPut]
         [Route("UpdateItem")]
-        public ActionResult<ProductUpdate> UpdateItem(ProductUpdate dto)
+        public async System.Threading.Tasks.Task<ActionResult<ProductUpdate>> UpdateItemAsync(ProductUpdate dto)
         {
-            var product = mapper.Map<Api.BLL.Models.Product>(dto);
+            var product = mapper.Map<BLL.Models.Product>(dto);
             productService.Update(product);
+            var productMessage = mapper.Map<ProductMessage>(product);
+            var message = new KafkaProducer();
+            await message.KafkaMessage(productMessage);
             return Ok();
         }
 

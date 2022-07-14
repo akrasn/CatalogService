@@ -13,6 +13,7 @@ using CatalogService.Api.Web.Services;
 using Microsoft.AspNetCore.Http;
 using CatalogService.Api.DAL.Repositories;
 using CatalogService.Api.DAL.Repositories.Interface;
+using CatalogService.Api.Web.Producer;
 
 namespace CatalogService
 {
@@ -38,6 +39,7 @@ namespace CatalogService
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddAutoMapper(typeof(AppMappingProfile));
             services.AddHttpContextAccessor();
