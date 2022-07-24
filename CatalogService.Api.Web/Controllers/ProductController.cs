@@ -6,6 +6,7 @@ using CatalogService.Api.Web.Models;
 using CatalogService.Api.Web.Producer;
 using CatalogService.Api.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +23,15 @@ namespace CatalogService.Api.Web.Controllers
         private readonly IMapper mapper;
         private IProductService productService;
         private readonly IUriService uriService;
+        private readonly IConfiguration configuration;
 
-        public ProductController(IMapper mapper, ILogger<ProductController> logger, IProductService productService, IUriService uriService)
+        public ProductController(IMapper mapper, ILogger<ProductController> logger, IProductService productService, IUriService uriService, IConfiguration configuration)
         {
             this.logger = logger;
             this.mapper = mapper;
             this.productService = productService;
             this.uriService = uriService;
+            this.configuration = configuration;
         }
 
         [HttpGet()]
@@ -75,7 +78,8 @@ namespace CatalogService.Api.Web.Controllers
             var product = mapper.Map<BLL.Models.Product>(dto);
             productService.Update(product);
             var productMessage = mapper.Map<ProductMessage>(product);
-            var message = new KafkaProducer();
+            
+            var message = new KafkaProducer(configuration);
             await message.KafkaMessage(productMessage);
             return Ok();
         }

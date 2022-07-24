@@ -8,3 +8,7 @@ net5.0
 /CatalogService.Api.Web/obj
 /CatalogService.Api.BLL/obj
 /CatalogService.Api.DAL/obj
+/.vs
+/.gitignore
+/.vs
+/.vs/CatalogService

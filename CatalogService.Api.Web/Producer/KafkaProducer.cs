@@ -1,5 +1,6 @@
 ﻿using CatalogService.Api.Web.Models;
 using Confluent.Kafka;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,15 @@ namespace CatalogService.Api.Web.Producer
     public class KafkaProducer
     {
         private IProducer<Null, string> producer;
+        private IConfiguration configuration;
 
-        public KafkaProducer()
+        public KafkaProducer(IConfiguration configuration)
         {
+            this.configuration = configuration;
+            var host = configuration.GetSection("Kafka").GetValue<string>("Host");
             var config = new ProducerConfig()
             {
-                BootstrapServers = "localhost:9092"
+                BootstrapServers = host
             };
             producer = new ProducerBuilder<Null, string>(config).Build();
         }
@@ -24,8 +28,8 @@ namespace CatalogService.Api.Web.Producer
         public async Task KafkaMessage(ProductMessage productMessage)
         {
             string value = JsonConvert.SerializeObject(productMessage);
-
-            await producer.ProduceAsync("demo1", new Message<Null, string>() { Value = value });
+            var topic = configuration.GetSection("Kafka").GetValue<string>("Topic");
+            await producer.ProduceAsync(topic, new Message<Null, string>() { Value = value });
             producer.Flush(TimeSpan.FromSeconds(10));
 
         }
