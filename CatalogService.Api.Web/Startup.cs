@@ -13,12 +13,19 @@ using CatalogService.Api.Web.Services;
 using Microsoft.AspNetCore.Http;
 using CatalogService.Api.DAL.Repositories;
 using CatalogService.Api.DAL.Repositories.Interface;
-using CatalogService.Api.Web.Producer;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 namespace CatalogService
 {
     public class Startup
     {
+        // Not best practice to hardcode any secrets in the code.
+        private const string Secret = "this is my custom Secret key for authentication";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -51,9 +58,48 @@ namespace CatalogService
                 return new UriService(uri);
             });
             services.AddControllers();
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Secret)),
+                    ValidIssuer = "saar",
+                    ValidateIssuer = true,
+                    ValidAudience = "saar-audience",
+                    ValidateAudience = true,
+                    NameClaimType = JwtRegisteredClaimNames.Sub,
+                    RoleClaimType = ClaimTypes.Role,
+                };
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field " +
+                    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWF",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+   {
+     new OpenApiSecurityScheme
+     {
+       Reference = new OpenApiReference
+       {
+         Type = ReferenceType.SecurityScheme,
+         Id = "Bearer"
+       }
+      },
+      new string[] { }
+    }
+  });
             });
 
         }
@@ -69,6 +115,8 @@ namespace CatalogService
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

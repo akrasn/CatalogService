@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CatalogService.Api.BLL.Services;
 using CatalogService.Api.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -19,6 +20,7 @@ namespace CatalogService.Api.Web.Controllers
             this.mapper = mapper;
             this.categoryService = categoryService;
         }
+
         // GET: api/<CateroryController>
         [HttpGet()]
         [Route("ListCategories")]
@@ -41,6 +43,7 @@ namespace CatalogService.Api.Web.Controllers
         // POST api/<CateroryController>
         [HttpPost]
         [Route("AddCategory")]
+        [Authorize(Roles = "Manager")]
         public ActionResult<Category> AddCategory(CategoryUpdate dto)
         {
             var categoryBs = mapper.Map<Api.BLL.Models.Category>(dto);
@@ -51,6 +54,7 @@ namespace CatalogService.Api.Web.Controllers
         // POST api/<CateroryController>
         [HttpPut]
         [Route("UpdateCategory")]
+        [Authorize(Roles = "Manager")]
         public IActionResult UpdateCategory(CategoryUpdate dto)
         {
             var categoryBs = mapper.Map<Api.BLL.Models.Category>(dto);
@@ -59,6 +63,7 @@ namespace CatalogService.Api.Web.Controllers
         }
 
         [HttpDelete("DeleteCategory/{id}")]
+        [Authorize(Roles = "Manager")]
         public ActionResult<Category> DeleteCategory(int id)
         {
             categoryService.Delete(id);
