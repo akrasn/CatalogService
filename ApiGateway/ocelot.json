@@ -1,0 +1,116 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5025"
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/List",
+      "UpstreamHttpMethod": [ "Get" ],
+      "FileCacheOptions": { "TtlSeconds": 60 },
+
+      "DownstreamPathTemplate": "/Category/ListCategories",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 11848
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/Category/AddCategory",
+      "UpstreamHttpMethod": [ "Post" ],
+
+      "DownstreamPathTemplate": "/Category/AddCategory",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 11848
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/Category/UpdateCategory",
+      "UpstreamHttpMethod": [ "Post" ],
+
+      "DownstreamPathTemplate": "/Category/UpdateCategory",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 11848
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/Category/DeleteCategory/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+
+      "DownstreamPathTemplate": "/Category/DeleteCategory/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 11848
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/AllCart",
+      "UpstreamHttpMethod": [ "Get" ],
+      "FileCacheOptions": { "TtlSeconds": 60 },
+
+      "DownstreamPathTemplate": "/CartV0",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 65318
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/Cart/{key}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "FileCacheOptions": { "TtlSeconds": 60 },
+
+      "DownstreamPathTemplate": "/Cart/v1/{key}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 65318
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/Cart/AddItem",
+      "UpstreamHttpMethod": [ "Post" ],
+
+      "DownstreamPathTemplate": "/Cart/v1/AddItem",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 65318
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/Cart/DeleteItem/{clientId}/item/{itemId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+
+      "DownstreamPathTemplate": "/Cart/v1/DeleteItem/{clientId}/item/{itemId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 65318
+        }
+      ]
+    }
+  ]
+
+}
+
